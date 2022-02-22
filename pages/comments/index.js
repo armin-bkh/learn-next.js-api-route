@@ -20,8 +20,17 @@ const CommentsListPage = () => {
       },
     });
     const data = await response.json();
-    if(!comments.length) return;
+    if (!comments.length) return;
     setComments([...comments, data]);
+  };
+
+  const removeCommentHandler = async (id) => {
+    await fetch(`/api/comments/${id}`, {
+      method: "DELETE",
+    });
+    setComments((prevComments) =>
+      prevComments.filter((comment) => comment.id !== id)
+    );
   };
 
   return (
@@ -37,7 +46,10 @@ const CommentsListPage = () => {
         <ul>
           {comments.map((comment) => (
             <li key={comment.id}>
-              <h2>{comment.text}</h2>
+              {comment.id} {comment.text}
+              <button onClick={() => removeCommentHandler(comment.id)}>
+                Delete
+              </button>
             </li>
           ))}
         </ul>
