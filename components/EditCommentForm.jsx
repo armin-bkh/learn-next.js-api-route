@@ -1,18 +1,14 @@
 import { useState } from 'react';
 
-const EditCommentForm = ({ comment }) => {
+const EditCommentForm = ({ comment, handleSubmit }) => {
     const [value, setValue] = useState(comment);
-
-    const submitHandler = async e => {
+    const submitHandler = (e) => {
         e.preventDefault();
-        const response = await fetch('/api/comments', comment.id);
-        const data = await response.json();
-        console.log(data);
+        handleSubmit(value)
     }
-
     return ( 
         <form onSubmit={submitHandler}>
-            <input type="text" value={value} onChange={() => setValue(e.target.value)} />
+            <input type="text" value={value} onChange={(e) => setValue(e.target.value)} />
             <button>submit</button>
         </form>
      );
